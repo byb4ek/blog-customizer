@@ -29,7 +29,7 @@ const App = () => {
 			<Article />
 		</div>
 	);
-};
+}; 
 
 root.render(
 	<StrictMode>
