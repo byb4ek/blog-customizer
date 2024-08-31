@@ -13,6 +13,7 @@ const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
 
 const App = () => {
+	
 	return (
 		<div
 			className={clsx(styles.main)}
@@ -25,11 +26,11 @@ const App = () => {
 					'--bg-color': defaultArticleState.backgroundColor.value,
 				} as CSSProperties
 			}>
-			<ArticleParamsForm />
-			<Article />
+			<ArticleParamsForm />{/* Стрелочка слева  */}
+			<Article /> {/* Статья с текстом */}
 		</div>
 	);
-}; 
+};
 
 root.render(
 	<StrictMode>
