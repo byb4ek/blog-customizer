@@ -17,7 +17,6 @@ export const useOutsideClickClose = ({
 		const handleClick = (event: MouseEvent) => {
 			const { target } = event;
 			if (target instanceof Node && !rootRef.current?.contains(target) && isOpen) {
-				console.log('Clicked outside, closing form');
 					onClose?.();
 					onChange?.(false);
 			}

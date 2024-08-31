@@ -1,18 +1,36 @@
 import { ArrowButton } from 'components/arrow-button';
 import { Button } from 'components/button';
+import { Select } from '../select';
+import { RadioGroup } from '../radio-group';
+import { Separator } from '../separator';
+import { Text } from 'components/text';
+
 
 import styles from './ArticleParamsForm.module.scss';
 import { useRef, useEffect, useState } from 'react';
 import { useOutsideClickClose } from '../select/hooks/useOutsideClickClose';
+import {
+	defaultArticleState,
+	fontFamilyOptions,
+	OptionType,
+	fontColors,
+	backgroundColors,
+	contentWidthArr,
+	fontSizeOptions,
+} from 'src/constants/articleProps';
 
 export const ArticleParamsForm = () => {
 	const [isOpen, setIsOpen] = useState(false);
+	const [params, setParams] = useState(defaultArticleState);
 	const formRef = useRef<HTMLDivElement>(null);
 
 	const toggleForm = () => {
-		console.log('test');
 		setIsOpen((prev) => !prev);
 	};
+
+	function handleOptionChange(key: string, option: OptionType) {
+		setParams({ ...params, [key]: option });
+	}
 
 	const handleEsc = (event: KeyboardEvent) => {
 		if (event.key === 'Escape') {
@@ -50,6 +68,51 @@ export const ArticleParamsForm = () => {
 						}`}>
 						<form className={styles.form}>
 							{/* Todo: Добавить сюда все компоненты из файлов с параметрами статьи */}
+							<Text as='p' size={31} weight={800} uppercase={true}>
+								Задайте параметры
+							</Text>
+							<Select
+								title='шрифт'
+								options={fontFamilyOptions}
+								selected={params.fontFamilyOption}
+								onChange={(selected) => {
+									handleOptionChange('fontFamilyOption', selected);
+								}}></Select>
+
+							<RadioGroup
+								title='размер шрифта'
+								name='размер шрифта'
+								options={fontSizeOptions}
+								selected={params.fontSizeOption}
+								onChange={(selected) => {
+									handleOptionChange('fontSizeOptions', selected);
+								}}></RadioGroup>
+
+							<Select
+								title='цвет шрифта'
+								options={fontColors}
+								selected={params.fontColor}
+								onChange={(selected) => {
+									handleOptionChange('fontColors', selected);
+								}}></Select>
+							<Separator />
+
+							<Select
+								title='цвет фона'
+								options={backgroundColors}
+								selected={params.backgroundColor}
+								onChange={(selected) => {
+									handleOptionChange('backgroundColors', selected);
+								}}></Select>
+
+									<Select
+								title='ширина контента'
+								options={contentWidthArr}
+								selected={params.contentWidth}
+								onChange={(selected) => {
+									handleOptionChange('contentWidthArr', selected);
+								}}></Select>
+								
 							<div className={styles.bottomContainer}>
 								<Button title='Сбросить' type='reset' />
 								<Button title='Применить' type='submit' />
