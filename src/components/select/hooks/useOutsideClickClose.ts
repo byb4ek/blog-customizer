@@ -16,13 +16,16 @@ export const useOutsideClickClose = ({
 	useEffect(() => {
 		const handleClick = (event: MouseEvent) => {
 			const { target } = event;
-			if (target instanceof Node && !rootRef.current?.contains(target)) {
-				isOpen && onClose?.();
-				onChange?.(false);
+			if (target instanceof Node && !rootRef.current?.contains(target) && isOpen) {
+				console.log('Clicked outside, closing form');
+					onClose?.();
+					onChange?.(false);
 			}
 		};
 
-		window.addEventListener('click', handleClick);
+		if (isOpen) {
+			window.addEventListener('click', handleClick);
+		}
 
 		return () => {
 			window.removeEventListener('click', handleClick);

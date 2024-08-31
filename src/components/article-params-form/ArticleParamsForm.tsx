@@ -2,28 +2,17 @@ import { ArrowButton } from 'components/arrow-button';
 import { Button } from 'components/button';
 
 import styles from './ArticleParamsForm.module.scss';
-import { MouseEventHandler, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
+import { useOutsideClickClose } from '../select/hooks/useOutsideClickClose';
 
 export const ArticleParamsForm = () => {
 	const [isOpen, setIsOpen] = useState(false);
+	const formRef = useRef<HTMLDivElement>(null);
 
 	const toggleForm = () => {
+		console.log('test');
 		setIsOpen((prev) => !prev);
 	};
-
-	const handleOverlayClick = () => {
-		setIsOpen(false);
-	};
-
-	/* 	const handleFormClick = (e: MouseEventHandler<HTMLDivElement>) => {
-		e.stopPropagation();
-	} */
-
-/* 	const handleFormClick = () => {
-		const handleClick: MouseEventHandler<HTMLDivElement> = (event) => {
-			event.stopPropagation();
-		};
-	}; */
 
 	const handleEsc = (event: KeyboardEvent) => {
 		if (event.key === 'Escape') {
@@ -34,31 +23,31 @@ export const ArticleParamsForm = () => {
 	useEffect(() => {
 		if (isOpen) {
 			document.addEventListener('keydown', handleEsc);
-			// document.addEventListener('click', handleOverlayClick);
 		} else {
 			document.removeEventListener('keydown', handleEsc);
-			// document.removeEventListener('click', handleOverlayClick);
 		}
 
 		return () => {
 			document.removeEventListener('keydown', handleEsc);
-			// document.removeEventListener('click', handleOverlayClick);
 		};
 	}, [isOpen]);
 
+	useOutsideClickClose({
+		isOpen,
+		rootRef: formRef,
+		onClose: () => setIsOpen(false),
+		onChange: setIsOpen,
+	});
+
 	return (
 		<>
-			<ArrowButton onClick={toggleForm} isOpen={isOpen} />
-			{/* Если нажали на кнопку отображаем форму
-			ToDo: добавить обработку на закрытие формы (по оверлею и ESC) */}
-			{isOpen && (
-				<div className={styles.overlay} onClick={handleOverlayClick}>
+			<div ref={formRef}>
+				<ArrowButton onClick={toggleForm} isOpen={isOpen} />
+				{isOpen && (
 					<aside
 						className={`${styles.container} ${
 							isOpen ? styles.container_open : ''
-						}`}
-						// onClick={handleFormClick}
-						>
+						}`}>
 						<form className={styles.form}>
 							{/* Todo: Добавить сюда все компоненты из файлов с параметрами статьи */}
 							<div className={styles.bottomContainer}>
@@ -67,8 +56,8 @@ export const ArticleParamsForm = () => {
 							</div>
 						</form>
 					</aside>
-				</div>
-			)}
+				)}
+			</div>
 		</>
 	);
 };
