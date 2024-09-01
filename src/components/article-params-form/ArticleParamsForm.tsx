@@ -67,7 +67,6 @@ export const ArticleParamsForm = () => {
 							isOpen ? styles.container_open : ''
 						}`}>
 						<form className={styles.form}>
-							{/* Todo: Добавить сюда все компоненты из файлов с параметрами статьи */}
 							<Text as='p' size={31} weight={800} uppercase={true}>
 								Задайте параметры
 							</Text>
