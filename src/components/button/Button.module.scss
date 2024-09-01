@@ -10,10 +10,26 @@
 	cursor: pointer;
 }
 
-.button:active {
+ .button:active {
 	background: var(--gold, #ffc802);
 }
 
 .button:hover {
+	background: var(--gold, #FFEDAB);
+}
+
+/* .button-yellow {
 	background: var(--gold, #ffc802);
 }
+
+.button-yellow:hover {
+	background: var(--gold, #FFEDAB);
+}
+
+.button-white{
+	background: var(--gold, white);
+}
+
+.button-white:hover{
+	background: var(--gold, #000000);
+}  */

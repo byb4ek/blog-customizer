@@ -5,12 +5,12 @@ import { RadioGroup } from '../radio-group';
 import { Separator } from '../separator';
 import { Text } from 'components/text';
 
-
 import styles from './ArticleParamsForm.module.scss';
-import { useRef, useEffect, useState } from 'react';
+import { FormEvent, useRef, useEffect, useState } from 'react';
 import { useOutsideClickClose } from '../select/hooks/useOutsideClickClose';
 import {
 	defaultArticleState,
+	ArticleStateType,
 	fontFamilyOptions,
 	OptionType,
 	fontColors,
@@ -19,7 +19,11 @@ import {
 	fontSizeOptions,
 } from 'src/constants/articleProps';
 
-export const ArticleParamsForm = () => {
+type Props = {
+	onChange: ({}: ArticleStateType) => void;
+};
+
+export const ArticleParamsForm = ({ onChange }: Props) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [params, setParams] = useState(defaultArticleState);
 	const formRef = useRef<HTMLDivElement>(null);
@@ -36,6 +40,16 @@ export const ArticleParamsForm = () => {
 		if (event.key === 'Escape') {
 			setIsOpen(false);
 		}
+	};
+
+	const resetParams = () => {
+		setParams(defaultArticleState);
+		onChange(defaultArticleState);
+	};
+
+	const submitParams = (event: FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		onChange(params);
 	};
 
 	useEffect(() => {
@@ -66,7 +80,10 @@ export const ArticleParamsForm = () => {
 						className={`${styles.container} ${
 							isOpen ? styles.container_open : ''
 						}`}>
-						<form className={styles.form}>
+						<form
+							className={styles.form}
+							onReset={resetParams}
+							onSubmit={submitParams}>
 							<Text as='p' size={31} weight={800} uppercase={true}>
 								Задайте параметры
 							</Text>
@@ -76,6 +93,7 @@ export const ArticleParamsForm = () => {
 								selected={params.fontFamilyOption}
 								onChange={(selected) => {
 									handleOptionChange('fontFamilyOption', selected);
+									
 								}}></Select>
 
 							<RadioGroup
@@ -84,7 +102,7 @@ export const ArticleParamsForm = () => {
 								options={fontSizeOptions}
 								selected={params.fontSizeOption}
 								onChange={(selected) => {
-									handleOptionChange('fontSizeOptions', selected);
+									handleOptionChange('fontSizeOption', selected);
 								}}></RadioGroup>
 
 							<Select
@@ -92,7 +110,7 @@ export const ArticleParamsForm = () => {
 								options={fontColors}
 								selected={params.fontColor}
 								onChange={(selected) => {
-									handleOptionChange('fontColors', selected);
+									handleOptionChange('fontColor', selected);
 								}}></Select>
 							<Separator />
 
@@ -101,17 +119,17 @@ export const ArticleParamsForm = () => {
 								options={backgroundColors}
 								selected={params.backgroundColor}
 								onChange={(selected) => {
-									handleOptionChange('backgroundColors', selected);
+									handleOptionChange('backgroundColor', selected);
 								}}></Select>
 
-									<Select
+							<Select
 								title='ширина контента'
 								options={contentWidthArr}
 								selected={params.contentWidth}
 								onChange={(selected) => {
-									handleOptionChange('contentWidthArr', selected);
+									handleOptionChange('contentWidth', selected);
 								}}></Select>
-								
+
 							<div className={styles.bottomContainer}>
 								<Button title='Сбросить' type='reset' />
 								<Button title='Применить' type='submit' />
