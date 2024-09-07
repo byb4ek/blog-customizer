@@ -44,7 +44,7 @@
 
 .selectWrapper:not([data-is-active='true'])
 	.placeholder:not([data-status='invalid']):hover {
-	outline: 3px solid #000000;
+	outline: 2px solid #FFC802;
 }
 
 .select {
@@ -53,12 +53,14 @@
 	display: grid;
 	box-sizing: border-box;
 	width: 100%;
+	max-height: 250px;
 	margin: 0;
 	padding: 0;
 	list-style: none;
 	background-color: rgb(255 255 255 / 100%);
 	border-top: none;
 	outline: 3px solid #000000;
+	overflow:  auto;
 }
 
 .option {
@@ -78,7 +80,11 @@
 }
 
 .option:hover {
-	background: var(--grey, #c4c4c4);
+	background: var(--grey, #EEEEEE);
+}
+
+.option:active {
+	background-color: #D7D7D7;
 }
 
 @mixin option-color-before {
